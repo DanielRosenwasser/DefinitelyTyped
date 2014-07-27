@@ -1,8 +1,8 @@
-// Type definitions for Snap.svg
+// Type definitions for Snap.svg 0.3.0
 // Project: http://snapsvg.io/
 //          https://github.com/adobe-webplatform/Snap.svg
 // Definitions by: Daniel Rosenwasser <https://github.com/DanielRosenwasser>
-// TODO: Add DefinitelyTyped here when ready
+// Definitions: https://github.com/borisyankov/DefinitelyTyped
 
 declare module snapsvg {
 
@@ -33,22 +33,22 @@ declare module snapsvg {
         
         h: number;
         s: number;
-        v: number; // Because the 'b' in "blue" and "brightness" conflict, we displace it with 'v'.
+        v: number; // Because the 'b' in "blue" and "brightness" conflict, 'v' is used instead.
 
         hex: string;
         error?: boolean;
     }
 
-    interface Snap {
+    interface SnapStatic {
         version: string;
 
-        (width: string, height: string): Element;
-        (width: string, height: number): Element;
-        (width: number, height: string): Element;
-        (width: number, height: number): Element;
-        (query: string): Element;
-        (dom: SVGElement): Element;
-        (array: Element[]): Set<Element>;
+        (query: string): Paper;
+        (width: string, height: string): Paper;
+        (width: string, height: number): Paper;
+        (width: number, height: string): Paper;
+        (width: number, height: number): Paper;
+        (dom: SVGElement): SVGElement;
+        (array: Element[]): ElementSet;
 
         format(token: string, json: any): string;
         
@@ -99,12 +99,11 @@ declare module snapsvg {
 
         // TODO: Let snap people know that their return type may be wrong
         // Figure out multiple return types.
-        selectAll(query: string): Set<Element>;
+        selectAll(query: string): ElementSet;
         //selectAll(query: string): Element[];
 
-        set<T>(...items: any[]): Set<T>;
+        set(...items: any[]): ElementSet;
 
-        // TODO: Vague on how to use animation; is callback of type void?
         animation(attr: any, durationInMillis: number, easing?: (n: number) => number, callback?: () => void): Animation;
 
         inAnim(): { anim: Animation; mina: AnimationDescriptor; curStatus: number; status: (n?: number) => number; stop: () => void }[];
@@ -128,15 +127,23 @@ declare module snapsvg {
                 easing?: (n: number) => number,
                 callback?: () => void): MinaAnimation;
 
-        ajax<T>(url: string, postData: string, callback: (scope?: T) => void, scope?: T): XMLHttpRequest;
-        ajax<T>(url: string, postData: any, callback: (scope?: T) => void, scope?: T): XMLHttpRequest;
-        ajax<T>(url: string, callback: (scope: T) => void, scope?: T): XMLHttpRequest;
+        ajax(url: string, postData: string, callback: () => void, thisArg?: any): XMLHttpRequest;
+        ajax(url: string, postData: any, callback: () => void, thisArg?: any): XMLHttpRequest;
+        ajax(url: string, callback: () => void, thisArg?: any): XMLHttpRequest;
 
         // TODO: documentation needs to indicate return type more explicitly.
-        load<T>(url: string, callback: (scope: T) => void, scope: T): Fragment;
+        load(url: string, callback: () => void, thisArg: any): Fragment;
 
         // TODO: return type comes before arguments in documentation.
         getElementsByPoint(x: number, y: number): Element;
+
+        /**
+         * The constructor for Matrix.
+         */
+        Matrix: { new (a: number, b: number, c: number, d: number, e: number, f: number): Matrix };
+
+        matrix(a: number, b: number, c: number, d: number, e: number, f: number): Matrix;
+        matrix(matrix: SVGMatrix): Matrix;
 
         // TODO
         //plugin(f: (Snap: Snap, Element: typeof Element, Paper: typeof Paper, global: any, Fragment: Fragment) => void): void;
@@ -144,7 +151,7 @@ declare module snapsvg {
 
     interface Fragment {
         select(query: string): Element;
-        selectAll(query: string): Set<Element>;
+        selectAll(query: string): ElementSet;
     }
 
     interface BoundingBox {
@@ -247,8 +254,9 @@ declare module snapsvg {
 
     interface Element {
         // TODO: Check the types value can take on.
-        attr(attribute: string, value: string): string
-        attr(attribute: string, value: number): string
+        attr(attribute: string): any;
+        attr(attribute: string, value: string): string;
+        attr(attribute: string, value: number): string;
         attr(attributes: any): Element;
 
         getBBox(): BoundingBox;
@@ -260,24 +268,24 @@ declare module snapsvg {
         parent(): Element;
 
         append(el: Element): Element;
-        append(els: Set<Element>): Element;
+        append(els: ElementSet): Element;
 
         add(el: Element): Element;
-        add(els: Set<Element>): Element;
+        add(els: ElementSet): Element;
 
         appendTo(parentEl: Element): Element;
 
-        // TODO: Documentation doesn't cover Set<Element> for many of the following:
+        // TODO: Documentation doesn't cover ElementSet for many of the following:
         prepend(el: Element): Element;
-        prepend(els: Set<Element>): Element;
+        prepend(els: ElementSet): Element;
 
         prependTo(parentEl: Element): Element;
 
         before(el: Element): Element;
-        before(els: Set<Element>): Element;
+        before(els: ElementSet): Element;
 
         after(el: Element): Element;
-        after(els: Set<Element>): Element;
+        after(els: ElementSet): Element;
 
         insertBefore(el: Element): Element;
 
@@ -287,7 +295,7 @@ declare module snapsvg {
 
         select(query: string): Element;
 
-        selectAll(query: string): Set<Element>;
+        selectAll(query: string): ElementSet;
 
         // TODO: asPX is documented to return Element
         asPX(attr: string, value?: string): number;
@@ -337,9 +345,9 @@ declare module snapsvg {
 
         marker(x: number, y: number, width: number, height: number, refX: number, refY: number): Element;
 
-        stop(): void;
-
         animate(attrs: any, durationInMillis: number, easing?: (p: number) => number, callback?: () => void): Element;
+
+        stop(): void;
 
         data(key: string): any;
         data(key: string, value: any): Element;
@@ -361,58 +369,54 @@ declare module snapsvg {
         // TODO: flag not documented as optional
         toggleClass(value: string, flag?: boolean): Element;
 
-        // TODO: ask if context is needed
-        click<T>(handler: (context?: T) => void, context?: T): Element;
-        unclick<T>(handler: (context?: T) => void, context?: T): Element;
-        dblclick<T>(handler: (context?: T) => void, context?: T): Element;
-        undblclick<T>(handler: (context?: T) => void, context?: T): Element;
-        mousedown<T>(handler: (context?: T) => void, context?: T): Element;
-        unmousedown<T>(handler: (context?: T) => void, context?: T): Element;
-        mousemove<T>(handler: (context?: T) => void, context?: T): Element;
-        unmousemove<T>(handler: (context?: T) => void, context?: T): Element;
-        mouseout<T>(handler: (context?: T) => void, context?: T): Element;
-        unmouseout<T>(handler: (context?: T) => void, context?: T): Element;
-        mouseover<T>(handler: (context?: T) => void, context?: T): Element;
-        unmouseover<T>(handler: (context?: T) => void, context?: T): Element;
-        mouseup<T>(handler: (context?: T) => void, context?: T): Element;
-        unmouseup<T>(handler: (context?: T) => void, context?: T): Element;
-        touchstart<T>(handler: (context?: T) => void, context?: T): Element;
-        untouchstart<T>(handler: (context?: T) => void, context?: T): Element;
-        touchmove<T>(handler: (context?: T) => void, context?: T): Element;
-        untouchmove<T>(handler: (context?: T) => void, context?: T): Element;
-        touchend<T>(handler: (context?: T) => void, context?: T): Element;
-        untouchend<T>(handler: (context?: T) => void, context?: T): Element;
-        touchcancel<T>(handler: (context?: T) => void, context?: T): Element;
-        untouchcancel<T>(handler: (context?: T) => void, context?: T): Element;
+        click(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        dblclick(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        mousedown(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        mousemove(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        mouseout(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        mouseover(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        mouseup(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        touchstart(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        touchmove(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        touchend(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        touchcancel(handler: (event: MouseEvent) => void, thisArg?: any): Element;
+        
+        unclick(handler: (event: MouseEvent) => void): Element;
+        undblclick(handler: (event: MouseEvent) => void): Element;
+        unmousedown(handler: (event: MouseEvent) => void): Element;
+        unmousemove(handler: (event: MouseEvent) => void): Element;
+        unmouseout(handler: (event: MouseEvent) => void): Element;
+        unmouseover(handler: (event: MouseEvent) => void): Element;
+        unmouseup(handler: (event: MouseEvent) => void): Element;
+        untouchstart(handler: (event: MouseEvent) => void): Element;
+        untouchmove(handler: (event: MouseEvent) => void): Element;
+        untouchend(handler: (event: MouseEvent) => void): Element;
+        untouchcancel(handler: (event: MouseEvent) => void): Element;
 
-        hover<T>(hoverInHandler: (context?: T) => void, hoverOutHandler: (context?: T) => void, context?: T): Element;
-        hover<TI, TO>(hoverInHandler: (context?: TI) => void, hoverOutHandler: (context?: TO) => void, inContext?: TI, outContext?: TO): Element;
-         
-        unhover<TI, TO>(hoverInHandler: () => void, hoverOutHandler: () => void): Element;
+        hover(hoverInHandler: (event: MouseEvent) => void, hoverOutHandler: (event: MouseEvent) => void, thisArg?: any): Element;
+        hover(hoverInHandler: (event: MouseEvent) => void, hoverOutHandler: (event: MouseEvent) => void, inThisArg?: any, outThisArg?: any): Element;
+        unhover(hoverInHandler: (event: MouseEvent) => void, hoverOutHandler: (event: MouseEvent) => void): Element;
 
-        drag(onMove: (ctxt: MouseMoveContext) => void, onStart: (ctxt: MouseStartContext) => void, onEnd: (ctxt: MouseEndContext) => void): Element;
-        drag<TM, TS, TE>(onMove: (ctxt: TM) => void, onStart: (ctxt: TS) => void, onEnd: (ctxt: TE) => void, 
-                        moveContext?: TM, startContext?: TS, endContext?: TE): Element;
+        drag(onMove:  (dx: number, dy: number, event: MouseEvent) => void,
+             onStart: (x: number, y: number, event: MouseEvent) => void,
+             onEnd:   (event: MouseEvent) => void,
+             moveThisArg?: any,
+             startThisArg?: any,
+             endThisArg?: any): Element;
 
-        undrag(): Element;
+        undrag(onMove:  (dx: number, dy: number, event: MouseEvent) => void,
+               onStart: (x: number, y: number, event: MouseEvent) => void,
+               onEnd:   (event: MouseEvent) => void): Element;
 
         getTotalLength(): number;
-
-        getPointAtLength(length: number): {x: number; y: number; alpha: number };
-
+        getPointAtLength(length: number): { x: number; y: number; alpha: number };
         getSubPath(from: number, to: number): string;
 
     }
 
-    interface MouseStartContext { x: number; y: number; event: Event }
-    interface MouseMoveContext { dx: number; dy: number; x: number; y: number; event: Event }
-    interface MouseEndContext   { event: Event }
-
     interface Matrix {
-        new(a: number, b: number, c: number, d: number, e: number, f: number): Matrix;
-
-        add(a: number, b: number, c: number, d: number, e: number, f: number): Matrix;
         add(other: Matrix): Matrix;
+        add(a: number, b: number, c: number, d: number, e: number, f: number): Matrix;
 
         invert(): Matrix;
 
@@ -432,17 +436,10 @@ declare module snapsvg {
 
         split(): ExplicitTransform;
 
+        toString(): string;
+
         toTransformString(): string;
     }
-
-    interface Snap {
-        // TODO
-        //Matrix: typeof Matrix;
-
-        matrix(matrix: SVGMatrix): Matrix;
-        matrix(a: number, b: number, c: number, d: number, e: number, f: number): Matrix;
-    }
-
 
     interface ExplicitTransform {
         dx: number;
@@ -454,7 +451,7 @@ declare module snapsvg {
         isSimple: boolean;
     }
 
-    interface Paper {
+    interface Paper extends Element {
         el(name: string, attributes: any): Element;
 
         // TODO: make rect interface?
@@ -501,7 +498,7 @@ declare module snapsvg {
 
         clear(): void;
 
-        filter: Filter
+        filter: Filter;
     }
 
     interface Filter {
@@ -531,7 +528,7 @@ declare module snapsvg {
     interface Path {
         getTotalLength(path: string): number;
 
-        getPointAtLength(path: string, length: number): {x: number; y: number; alpha: number };
+        getPointAtLength(path: string, length: number): { x: number; y: number; alpha: number };
 
         getSubPath(path: string, from: number, to: number): string;
 
@@ -549,7 +546,7 @@ declare module snapsvg {
 
         isPointInside(path: string, x: number, y: number): boolean;
 
-        getBBox(path: string): BezierBoundingBox
+        getBBox(path: string): BezierBoundingBox;
 
         // TODO: actual method takes arrays as well for 'path'.
         toRelative(path: string): any[][];
@@ -563,26 +560,26 @@ declare module snapsvg {
     }
 
 
-    interface Set<T> {
+    // ElementSet could be Set<T>. It actually started out that way,
+    // but it makes little-to-no sense since its main purpose is
+    // for animations, and gives nothing over built-in arrays.
+    interface ElementSet {
         // TODO: documentation omits arguments; says it returns element, not set.
-        push(...items: T[]): Set<T>;
+        push(...items: Element[]): ElementSet;
 
-        pop(): T;
+        pop(): Element;
 
-        forEach<CT>(callback: (item: T, index: number) => boolean, thisArg?: CT): Set<T>;
-        forEach<CT>(callback: (item: T, index: number) => void, thisArg?: CT): Set<T>;
+        forEach(callback: (item: Element, index: number) => boolean, thisArg?: any): ElementSet;
+        forEach(callback: (item: Element, index: number) => void, thisArg?: any): ElementSet;
 
-        // TODO REVIEW easing/callback are semi-optionality?
-        // Does this mean Sets are not generic?
-        animate(attrs: any, duration: number, easing?: (input: number) => number, callback?: (context: any) => void): Set<T>;
-        animate(attrs: any, duration: number, callback?: (context: any) => void): Set<T>;
-        animate(...animationParams: any[][]): Set<T>;
-
+        animate(attrs: any, duration: number, easing?: (input: number) => number, callback?: () => void): ElementSet;
+        animate(attrs: any, duration: number, callback?: () => void): ElementSet;
+        animate(...animationParams: any[][]): ElementSet;
         // TODO: Set.bind
 
         clear(): void;
 
-        splice(index: number, count: number, ...toInsert: T[]): Set<T>
+        splice(index: number, count: number, ...toInsert: Element[]): ElementSet;
 
         exclude(element: Element): boolean;
     }
@@ -631,5 +628,6 @@ declare module snapsvg {
 
 }
 
-declare var Snap: snapsvg.Snap;
+declare var Snap: snapsvg.SnapStatic;
+declare var mina: snapsvg.Mina;
 
