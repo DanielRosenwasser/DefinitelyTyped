@@ -219,7 +219,7 @@ declare module snapsvg {
         update(): void;
     }
 
-    interface Mina {
+    interface MinaStatic {
         // TODO: Correct documentation ("gereal" case)
         (slaveStart: number,
          slaveEnd: number,
@@ -668,5 +668,5 @@ declare module snapsvg {
 }
 
 declare var Snap: snapsvg.SnapStatic;
-declare var mina: snapsvg.Mina;
+declare var mina: snapsvg.MinaStatic;
 
