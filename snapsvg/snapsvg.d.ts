@@ -131,10 +131,8 @@ declare module snapsvg {
         ajax(url: string, postData: any, callback: () => void, thisArg?: any): XMLHttpRequest;
         ajax(url: string, callback: () => void, thisArg?: any): XMLHttpRequest;
 
-        // TODO: documentation needs to indicate return type more explicitly.
         load(url: string, callback: () => void, thisArg: any): Fragment;
 
-        // TODO: return type comes before arguments in documentation.
         getElementsByPoint(x: number, y: number): Element;
 
         /**
@@ -253,10 +251,10 @@ declare module snapsvg {
     }
 
     interface Element {
-        // TODO: Check the types value can take on.
-        attr(attribute: string): any;
-        attr(attribute: string, value: string): string;
-        attr(attribute: string, value: number): string;
+        attr(): Element;
+        attr(attribute: string): string;
+        attr(attribute: string, value: string): Element;
+        attr(attribute: string, value: number): Element;
         attr(attributes: any): Element;
 
         getBBox(): BoundingBox;
@@ -264,7 +262,6 @@ declare module snapsvg {
         transform(): TransformationDescriptor; // getter
         transform(transformString: string): Element; // setter
         
-
         parent(): Element;
 
         append(el: Element): Element;
@@ -275,7 +272,6 @@ declare module snapsvg {
 
         appendTo(parentEl: Element): Element;
 
-        // TODO: Documentation doesn't cover ElementSet for many of the following:
         prepend(el: Element): Element;
         prepend(els: ElementSet): Element;
 
@@ -297,7 +293,6 @@ declare module snapsvg {
 
         selectAll(query: string): ElementSet;
 
-        // TODO: asPX is documented to return Element
         asPX(attr: string, value?: string): number;
 
         use(): Element;
@@ -324,23 +319,69 @@ declare module snapsvg {
         toPattern(x: number, y: number, width: number, height: string): Element;
         toPattern(x: number, y: number, width: number, height: number): Element;
 
-        // TODO: Check if pattern should be omitted.
-        //       Also, documentation misspells "deprecated".
+        /**
+         * Deprecated.
+         */
         pattern(x: string, y: string, width: string, height: string): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: string, y: string, width: string, height: number): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: string, y: string, width: number, height: string): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: string, y: string, width: number, height: number): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: string, y: number, width: string, height: string): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: string, y: number, width: string, height: number): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: string, y: number, width: number, height: string): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: string, y: number, width: number, height: number): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: number, y: string, width: string, height: string): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: number, y: string, width: string, height: number): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: number, y: string, width: number, height: string): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: number, y: string, width: number, height: number): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: number, y: number, width: string, height: string): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: number, y: number, width: string, height: number): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: number, y: number, width: number, height: string): Element;
+        /**
+         * Deprecated.
+         */
         pattern(x: number, y: number, width: number, height: number): Element;
 
         marker(x: number, y: number, width: number, height: number, refX: number, refY: number): Element;
@@ -350,7 +391,7 @@ declare module snapsvg {
         stop(): void;
 
         data(key: string): any;
-        data(key: string, value: any): Element;
+        data(key: string, value: animatey): Element;
 
         removeData(key?: string): Element;
 
@@ -366,7 +407,6 @@ declare module snapsvg {
 
         hasClass(value: string): boolean;
 
-        // TODO: flag not documented as optional
         toggleClass(value: string, flag?: boolean): Element;
 
         click(handler: (event: MouseEvent) => void, thisArg?: any): Element;
@@ -454,16 +494,12 @@ declare module snapsvg {
     interface Paper extends Element {
         el(name: string, attributes: any): Element;
 
-        // TODO: make rect interface?
         rect(x: number, y: number, width: number, height: number, rx?: number, ry?: number): Element;
 
         circle(x: number, y: number, r: number): Element;
-        // TODO: documentation says "no attributes"
         
-        // TODO: undocumented use of object attributes instead of src?
-        // TODO: other places use URL; here we use URI.
         image(srcUri: string, x: number, y: number, width: number, height: number): Element;
-        image(attrs: any, x: number, y: number, width: number, height: number): Element;
+        image(attributes: any): Element;
 
         ellipse(x: number, y: number, rx: number, ry: number): Element;
 
@@ -575,7 +611,10 @@ declare module snapsvg {
         animate(attrs: any, duration: number, easing?: (input: number) => number, callback?: () => void): ElementSet;
         animate(attrs: any, duration: number, callback?: () => void): ElementSet;
         animate(...animationParams: any[][]): ElementSet;
-        // TODO: Set.bind
+        
+        bind(attribute: string, callback: (value: number) => void) ElementSet;
+        bind(attribute: string, callback: (value: string) => void): ElementSet;
+        bind(attribute: string, element: Element, elemAttribute?: string): ElementSet;
 
         clear(): void;
 
