@@ -96,11 +96,7 @@ declare module snapsvg {
 
         select(query: string): Element;
 
-
-        // TODO: Let snap people know that their return type may be wrong
-        // Figure out multiple return types.
         selectAll(query: string): ElementSet;
-        //selectAll(query: string): Element[];
 
         set(...items: any[]): ElementSet;
 
@@ -220,7 +216,6 @@ declare module snapsvg {
     }
 
     interface MinaStatic {
-        // TODO: Correct documentation ("gereal" case)
         (slaveStart: number,
          slaveEnd: number,
          masterStart: number,
@@ -384,6 +379,7 @@ declare module snapsvg {
          */
         pattern(x: number, y: number, width: number, height: number): Element;
 
+
         marker(x: number, y: number, width: number, height: number, refX: number, refY: number): Element;
 
         animate(attrs: any, durationInMillis: number, easing?: (p: number) => number, callback?: () => void): Element;
@@ -391,7 +387,7 @@ declare module snapsvg {
         stop(): void;
 
         data(key: string): any;
-        data(key: string, value: animatey): Element;
+        data(key: string, value: any): Element;
 
         removeData(key?: string): Element;
 
@@ -534,10 +530,10 @@ declare module snapsvg {
 
         clear(): void;
 
-        filter: Filter;
+        filter: FilterStatic;
     }
 
-    interface Filter {
+    interface FilterStatic {
         (filterString: string): Element;
 
         blur(x: number, y?: number): string;
@@ -573,7 +569,6 @@ declare module snapsvg {
         bezierBBox(p1x: number, p1y: number, c1x: number, c1y: number, c2x: number, c2y: number, p2x: number, p2y: number): BezierBoundingBox;
         bezierBBox(bezNums: number[]): BezierBoundingBox;
 
-        // TODO: documentation specifies first param is a string
         isPointInsideBBox(bbox: BezierBoundingBox, x: number, y: number): boolean;
 
         isBBoxIntersect(bbox1: BezierBoundingBox, bbox2: BezierBoundingBox): boolean;
@@ -584,8 +579,8 @@ declare module snapsvg {
 
         getBBox(path: string): BezierBoundingBox;
 
-        // TODO: actual method takes arrays as well for 'path'.
         toRelative(path: string): any[][];
+        toRelative(path: any[][]): any[][];
 
         toAbsolute(path: string): any[][];
 
@@ -600,7 +595,6 @@ declare module snapsvg {
     // but it makes little-to-no sense since its main purpose is
     // for animations, and gives nothing over built-in arrays.
     interface ElementSet {
-        // TODO: documentation omits arguments; says it returns element, not set.
         push(...items: Element[]): ElementSet;
 
         pop(): Element;
@@ -612,7 +606,7 @@ declare module snapsvg {
         animate(attrs: any, duration: number, callback?: () => void): ElementSet;
         animate(...animationParams: any[][]): ElementSet;
         
-        bind(attribute: string, callback: (value: number) => void) ElementSet;
+        bind(attribute: string, callback: (value: number) => void): ElementSet;
         bind(attribute: string, callback: (value: string) => void): ElementSet;
         bind(attribute: string, element: Element, elemAttribute?: string): ElementSet;
 
