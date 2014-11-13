@@ -104,24 +104,53 @@ declare module snapsvg {
 
         inAnim(): { anim: Animation; mina: AnimationDescriptor; curStatus: number; status: (n?: number) => number; stop: () => void }[];
 
+        // TODO: Snap.animate returns a 'MinaAnimation'
+        //       Not sure if it is actually appropriate (or useful?)
+        //       to support these overloads.
         animate(from: number,
                 to: number,
                 updater: (n: number) => void,
                 durationInMillis: number,
                 easing?: (n: number) => number,
                 callback?: () => void): MinaAnimation;
-        animate(from: number[],
+//        animate(from: number[],
+//                to: number,
+//                updater: (n: number) => void,
+//                durationInMillis: number,
+//                easing?: (n: number) => number,
+//                callback?: () => void): MinaAnimation;
+//        animate(from: number,
+//                to: number[],
+//                updater: (n: number) => void,
+//                durationInMillis: number,
+//                easing?: (n: number) => number,
+//                callback?: () => void): MinaAnimation;
+//        animate(from: number[],
+//                to: number[],
+//                updater: (n: number) => void,
+//                durationInMillis: number,
+//                easing?: (n: number) => number,
+//                callback?: () => void): MinaAnimation;
+        animate(from: number,
                 to: number,
                 updater: (n: number) => void,
                 durationInMillis: number,
-                easing?: (n: number) => number,
                 callback?: () => void): MinaAnimation;
-        animate(from: number,
-                to: number[],
-                updater: (n: number) => void,
-                durationInMillis: number,
-                easing?: (n: number) => number,
-                callback?: () => void): MinaAnimation;
+//        animate(from: number[],
+//                to: number,
+//                updater: (n: number) => void,
+//                durationInMillis: number,
+//                callback?: () => void): MinaAnimation;
+//        animate(from: number,
+//                to: number[],
+//                updater: (n: number) => void,
+//                durationInMillis: number,
+//                callback?: () => void): MinaAnimation;
+//        animate(from: number[],
+//                to: number[],
+//                updater: (n: number) => void,
+//                durationInMillis: number,
+//                callback?: () => void): MinaAnimation;
 
         ajax(url: string, postData: string, callback: () => void, thisArg?: any): XMLHttpRequest;
         ajax(url: string, postData: any, callback: () => void, thisArg?: any): XMLHttpRequest;
@@ -138,6 +167,10 @@ declare module snapsvg {
 
         matrix(a: number, b: number, c: number, d: number, e: number, f: number): Matrix;
         matrix(matrix: SVGMatrix): Matrix;
+
+        path: PathStatic;
+
+        filter: FilterStatic;
 
         // TODO
         //plugin(f: (Snap: Snap, Element: typeof Element, Paper: typeof Paper, global: any, Fragment: Fragment) => void): void;
@@ -315,67 +348,67 @@ declare module snapsvg {
         toPattern(x: number, y: number, width: number, height: number): Element;
 
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: string, y: string, width: string, height: string): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: string, y: string, width: string, height: number): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: string, y: string, width: number, height: string): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: string, y: string, width: number, height: number): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: string, y: number, width: string, height: string): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: string, y: number, width: string, height: number): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: string, y: number, width: number, height: string): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: string, y: number, width: number, height: number): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: number, y: string, width: string, height: string): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: number, y: string, width: string, height: number): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: number, y: string, width: number, height: string): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: number, y: string, width: number, height: number): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: number, y: number, width: string, height: string): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: number, y: number, width: string, height: number): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: number, y: number, width: number, height: string): Element;
         /**
-         * Deprecated.
+         * @deprecated.
          */
         pattern(x: number, y: number, width: number, height: number): Element;
 
@@ -530,7 +563,7 @@ declare module snapsvg {
 
         clear(): void;
 
-        filter: FilterStatic;
+        filter(filterStr: string): Element;
     }
 
     interface FilterStatic {
@@ -557,7 +590,7 @@ declare module snapsvg {
         contrast(amount: number): string;
     }
 
-    interface Path {
+    interface PathStatic {
         getTotalLength(path: string): number;
 
         getPointAtLength(path: string, length: number): { x: number; y: number; alpha: number };
