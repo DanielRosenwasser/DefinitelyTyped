@@ -1,6 +1,5 @@
 // Type definitions for Snap.svg 0.3.0
 // Project: http://snapsvg.io/
-//          https://github.com/adobe-webplatform/Snap.svg
 // Definitions by: Daniel Rosenwasser <https://github.com/DanielRosenwasser>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
@@ -37,6 +36,23 @@ declare module snapsvg {
 
         hex: string;
         error?: boolean;
+    }
+
+    /**
+     * An array of elements representing an instruction from a pasrsed transformation or path string.
+     * For instance, once the path string "M10,10" is parsed, the resulting ParsedCommand
+     * will be ["M", 10, 10].
+     */
+    interface ParsedCommand extends Array<string|number>{
+        0: string; // The command pneumonic.
+        1?: number;
+        2?: number;
+        3?: number;
+        4?: number;
+        5?: number;
+        6?: number;
+        7?: number;
+        8?: number;
     }
 
     interface SnapStatic {
@@ -82,17 +98,15 @@ declare module snapsvg {
 
         rgb2hsl(red: number, green: number, blue: number): HSL;
 
-        parsePathString(pathString: string): any[][];
-        parsePathString(path: any[][]): any[][];
+        parsePathString(pathString: string): ParsedCommand[];
+        parsePathString(path: ParsedCommand[]): ParsedCommand[];
 
-        parseTransformString(transformString: string): any[][];
-        parseTransformString(transforms: any[][]): any[][];
+        parseTransformString(transformString: string): ParsedCommand[];
+        parseTransformString(transforms: ParsedCommand[]): ParsedCommand[];
 
         parse(svg: string): Fragment;
 
-        fragment(...svgs: string[]): Fragment;
-        fragment(...svgs: Element[]): Fragment;
-        fragment(...svgs: any[]): Fragment;
+        fragment(...svgs: (string|Element)[]): Fragment;
 
         select(query: string): Element;
 
@@ -152,9 +166,9 @@ declare module snapsvg {
 //                durationInMillis: number,
 //                callback?: () => void): MinaAnimation;
 
+        ajax(url: string, callback: () => void, thisArg?: any): XMLHttpRequest;
         ajax(url: string, postData: string, callback: () => void, thisArg?: any): XMLHttpRequest;
         ajax(url: string, postData: any, callback: () => void, thisArg?: any): XMLHttpRequest;
-        ajax(url: string, callback: () => void, thisArg?: any): XMLHttpRequest;
 
         load(url: string, callback: () => void, thisArg: any): Fragment;
 
@@ -612,13 +626,13 @@ declare module snapsvg {
 
         getBBox(path: string): BezierBoundingBox;
 
-        toRelative(path: string): any[][];
-        toRelative(path: any[][]): any[][];
+        toRelative(path: string): ParsedCommand[];
+        toRelative(path: ParsedCommand[]): ParsedCommand[];
 
-        toAbsolute(path: string): any[][];
+        toAbsolute(path: string): ParsedCommand[];
 
-        toCubic(path: string): any[][];
-        toCubic(segments: any[][]): any[][];
+        toCubic(path: string): ParsedCommand[];
+        toCubic(segments: ParsedCommand[]): ParsedCommand[];
 
         map(path: string, matrix: Matrix): string;
     }
