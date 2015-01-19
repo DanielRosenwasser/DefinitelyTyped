@@ -118,53 +118,17 @@ declare module snapsvg {
 
         inAnim(): { anim: Animation; mina: AnimationDescriptor; curStatus: number; status: (n?: number) => number; stop: () => void }[];
 
-        // TODO: Snap.animate returns a 'MinaAnimation'
-        //       Not sure if it is actually appropriate (or useful?)
-        //       to support these overloads.
-        animate(from: number,
-                to: number,
+        animate(from: number|number[],
+                to: number|number[],
                 updater: (n: number) => void,
                 durationInMillis: number,
                 easing?: (n: number) => number,
                 callback?: () => void): MinaAnimation;
-//        animate(from: number[],
-//                to: number,
-//                updater: (n: number) => void,
-//                durationInMillis: number,
-//                easing?: (n: number) => number,
-//                callback?: () => void): MinaAnimation;
-//        animate(from: number,
-//                to: number[],
-//                updater: (n: number) => void,
-//                durationInMillis: number,
-//                easing?: (n: number) => number,
-//                callback?: () => void): MinaAnimation;
-//        animate(from: number[],
-//                to: number[],
-//                updater: (n: number) => void,
-//                durationInMillis: number,
-//                easing?: (n: number) => number,
-//                callback?: () => void): MinaAnimation;
-        animate(from: number,
-                to: number,
+        animate(from: number|number[],
+                to: number|number[],
                 updater: (n: number) => void,
                 durationInMillis: number,
                 callback?: () => void): MinaAnimation;
-//        animate(from: number[],
-//                to: number,
-//                updater: (n: number) => void,
-//                durationInMillis: number,
-//                callback?: () => void): MinaAnimation;
-//        animate(from: number,
-//                to: number[],
-//                updater: (n: number) => void,
-//                durationInMillis: number,
-//                callback?: () => void): MinaAnimation;
-//        animate(from: number[],
-//                to: number[],
-//                updater: (n: number) => void,
-//                durationInMillis: number,
-//                callback?: () => void): MinaAnimation;
 
         ajax(url: string, callback: () => void, thisArg?: any): XMLHttpRequest;
         ajax(url: string, postData: string, callback: () => void, thisArg?: any): XMLHttpRequest;
