@@ -307,89 +307,12 @@ declare module snapsvg {
 
         toDefs(): Element;
 
-        // omg
-        toPattern(x: string, y: string, width: string, height: string): Element;
-        toPattern(x: string, y: string, width: string, height: number): Element;
-        toPattern(x: string, y: string, width: number, height: string): Element;
-        toPattern(x: string, y: string, width: number, height: number): Element;
-        toPattern(x: string, y: number, width: string, height: string): Element;
-        toPattern(x: string, y: number, width: string, height: number): Element;
-        toPattern(x: string, y: number, width: number, height: string): Element;
-        toPattern(x: string, y: number, width: number, height: number): Element;
-        toPattern(x: number, y: string, width: string, height: string): Element;
-        toPattern(x: number, y: string, width: string, height: number): Element;
-        toPattern(x: number, y: string, width: number, height: string): Element;
-        toPattern(x: number, y: string, width: number, height: number): Element;
-        toPattern(x: number, y: number, width: string, height: string): Element;
-        toPattern(x: number, y: number, width: string, height: number): Element;
-        toPattern(x: number, y: number, width: number, height: string): Element;
-        toPattern(x: number, y: number, width: number, height: number): Element;
+        toPattern(x: string|number, y: string|number, width: string|number, height: string|number): Element;
 
         /**
          * @deprecated.
          */
-        pattern(x: string, y: string, width: string, height: string): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: string, y: string, width: string, height: number): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: string, y: string, width: number, height: string): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: string, y: string, width: number, height: number): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: string, y: number, width: string, height: string): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: string, y: number, width: string, height: number): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: string, y: number, width: number, height: string): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: string, y: number, width: number, height: number): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: number, y: string, width: string, height: string): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: number, y: string, width: string, height: number): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: number, y: string, width: number, height: string): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: number, y: string, width: number, height: number): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: number, y: number, width: string, height: string): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: number, y: number, width: string, height: number): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: number, y: number, width: number, height: string): Element;
-        /**
-         * @deprecated.
-         */
-        pattern(x: number, y: number, width: number, height: number): Element;
-
+        pattern(x: string|number, y: string|number, width: string|number, height: string|number): Element;
 
         marker(x: number, y: number, width: number, height: number, refX: number, refY: number): Element;
 
