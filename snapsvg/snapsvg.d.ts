@@ -118,14 +118,14 @@ declare module snapsvg {
 
         inAnim(): { anim: Animation; mina: AnimationDescriptor; curStatus: number; status: (n?: number) => number; stop: () => void }[];
 
-        animate(from: number|number[],
-                to: number|number[],
+        animate(from: number|(number[]),
+                to: number|(number[]),
                 updater: (n: number) => void,
                 durationInMillis: number,
                 easing?: (n: number) => number,
                 callback?: () => void): MinaAnimation;
-        animate(from: number|number[],
-                to: number|number[],
+        animate(from: number|(number[]),
+                to: number|(number[]),
                 updater: (n: number) => void,
                 durationInMillis: number,
                 callback?: () => void): MinaAnimation;
