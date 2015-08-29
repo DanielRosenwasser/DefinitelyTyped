@@ -229,7 +229,7 @@ var dataWrap = function (fn: any) {
 };
 
 var realMode = function (n: any) {
-   return n & 07777;
+   return n & 0x1FF; // 0777
 };
 
 describe('dest stream', function () {
@@ -372,7 +372,7 @@ describe('dest stream', function () {
       var expectedContents = fs.readFileSync(inputPath);
       var expectedCwd = __dirname;
       var expectedBase = path.join(__dirname, "./out-fixtures");
-      var expectedMode = 0655;
+      var expectedMode = 0x1AD; // 0655
 
       var expectedFile = new File({
          base: inputBase,
@@ -412,7 +412,7 @@ describe('dest stream', function () {
       var expectedContents = fs.readFileSync(inputPath);
       var expectedCwd = __dirname;
       var expectedBase = path.join(__dirname, "./out-fixtures");
-      var expectedMode = 0655;
+      var expectedMode = 0x1AD; // 0655
 
       var contentStream = through.obj();
       var expectedFile = new File({
@@ -456,7 +456,7 @@ describe('dest stream', function () {
       var expectedPath = path.join(__dirname, "./out-fixtures/test");
       var expectedCwd = __dirname;
       var expectedBase = path.join(__dirname, "./out-fixtures");
-      var expectedMode = 0655;
+      var expectedMode = 0x1AD; // 0655
 
       var expectedFile = new File({
          base: inputBase,
@@ -555,7 +555,7 @@ var dataWrap = function (fn: any) {
 };
 
 var realMode = function (n: any) {
-   return n & 07777;
+   return n & 0x1FF; // 0777
 };
 
 describe('symlink stream', function () {
@@ -706,7 +706,7 @@ describe('symlink stream', function () {
       var expectedContents = fs.readFileSync(inputPath);
       var expectedCwd = __dirname;
       var expectedBase = path.join(__dirname, './out-fixtures');
-      var expectedMode = 0655;
+      var expectedMode = 0x1AD; // 0655
 
       var expectedFile = new File({
          base: inputBase,
@@ -746,7 +746,7 @@ describe('symlink stream', function () {
       var expectedContents = fs.readFileSync(inputPath);
       var expectedCwd = __dirname;
       var expectedBase = path.join(__dirname, './out-fixtures');
-      var expectedMode = 0655;
+      var expectedMode = 0x1AD; // 0655
 
       var contentStream = through.obj();
       var expectedFile = new File({
@@ -790,7 +790,7 @@ describe('symlink stream', function () {
       var expectedPath = path.join(__dirname, './out-fixtures/wow');
       var expectedCwd = __dirname;
       var expectedBase = path.join(__dirname, './out-fixtures');
-      var expectedMode = 0655;
+      var expectedMode = 0x1AD; // 0655
 
       var expectedFile = new File({
          base: inputBase,
@@ -830,8 +830,8 @@ describe('symlink stream', function () {
       var inputBase = path.join(__dirname, './fixtures');
       var inputPath = path.join(__dirname, './fixtures/wow/suchempty');
       var expectedBase = path.join(__dirname, './out-fixtures/wow');
-      var expectedDirMode = 0755;
-      var expectedFileMode = 0655;
+      var expectedDirMode = 0x1ED; // 0755
+      var expectedFileMode = 0x1AD; // 0655
 
       var firstFile = new File({
          base: inputBase,
@@ -867,7 +867,7 @@ describe('symlink stream', function () {
       var expectedContents = fs.readFileSync(inputPath);
       var expectedCwd = __dirname;
       var expectedBase = path.join(__dirname, './out-fixtures');
-      var expectedMode = 0722;
+      var expectedMode = 0x1D2; // 0722
 
       var expectedFile = new File({
          base: inputBase,
