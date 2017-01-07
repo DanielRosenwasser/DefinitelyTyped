@@ -6,8 +6,13 @@
 export interface Configuration {
     strings?: string[];
     typeSpeed?: number;
-    pause?: number;
+    backSpeed?: number;
+    startDelay?: number;
+    backDelay?: number;
+    showCursor?: boolean;
     loop?: boolean;
+    cursorChar?: string;
+    onFinished?: () => void;
 }
 
 export function init(element: string, config: Configuration): void;

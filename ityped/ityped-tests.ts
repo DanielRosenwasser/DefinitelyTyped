@@ -1,11 +1,10 @@
-import { init } from "ityped";
+import { init, Configuration } from "ityped";
 
-const config = {
+const config: Configuration = {
     strings: [
         "Strings!",
     ],
     typeSpeed: 120,
-    pause: 500,
     loop: true
 };
 
@@ -16,3 +15,12 @@ init("#anotherSelector", {
 });
 
 init("#anotherOne", {});
+
+init("#withCallback", {
+    backSpeed: 100,
+    cursorChar: "_",
+    showCursor: true,
+    onFinished() {
+        console.log("Done typing.");
+    }
+});
